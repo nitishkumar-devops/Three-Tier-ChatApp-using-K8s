@@ -1,118 +1,363 @@
-## 📝 Introduction:
+# Three-Tier Chat Application Using Kubernetes
 
-This project aims to provide a real-time chat experience that's both scalable and secure. With a focus on modern technologies, we're building an application that's easy to use and maintain.
+A real-time, containerized chat application built with the **MERN stack**, designed using a three-tier architecture and deployed using **Docker and Kubernetes**.
 
+The application provides real-time messaging, JWT-based authentication, online/offline presence, and profile management. The architecture separates the presentation, application, and database layers to improve scalability, maintainability, and deployment flexibility.
 
-## Detailed Workflow Description:
+---
 
+## 📌 Project Overview
 
-![image](https://github.com/user-attachments/assets/f845a188-8e70-42f7-8577-30af38e83053)
+This project demonstrates how a modern full-stack application can be containerized and deployed using a **three-tier architecture**.
 
+The application is divided into:
 
-  - **User Interaction:**
-    - Users interact with the frontend application running in their browser. This includes actions like logging in, sending messages, and navigating through the chat interface.Frontend (React App):The frontend is responsible for rendering the user interface and handling user inputs.It communicates with the backend via HTTP requests (for RESTful APIs) and WebSocket connections (for real-time interactions).
+1. **Presentation Tier** – React frontend served through Nginx
+2. **Application Tier** – Node.js/Express backend with Socket.io
+3. **Data Tier** – MongoDB database
 
-    - **Backend (Node.js/Express + Socket.io):**
-       - The backend handles all the server-side logic.It processes API requests from the frontend to perform actions such as user authentication, message retrieval, and message storage.Socket.io is used to manage real-time bi-directional communication between the frontend and the backend. This allows for instant messaging features, such as showing when users are typing or when new messages are sent.
+Docker is used to containerize the application components, while Kubernetes is used for container orchestration, service discovery, networking, and deployment management.
 
+---
 
-    - **MongoDB (Database):**
-       - MongoDB stores all persistent data for the application, including user profiles, chat messages, and any other relevant data.The backend interacts with MongoDB to retrieve, add, update, or delete data based on the requests it receives from the frontend.
+## 🏗️ Architecture
 
+![Application Architecture](https://github.com/user-attachments/assets/f845a188-8e70-42f7-8577-30af38e83053)
 
-
-
-## ✨ Features:
-
-
-* **Real-time Messaging**: Send and receive messages instantly using Socket.io 
-* **User Authentication & Authorization**: Securely manage user access with JWT 
-* **Scalable & Secure Architecture**: Built to handle large volumes of traffic and data 
-* **Modern UI Design**: A user-friendly interface crafted with React and TailwindCSS 
-* **Profile Management**: Users can upload and update their profile pictures 
-* **Online Status**: View real-time online/offline status of users 
-
-
-## 🛠️ Tech Stack:
-
-
-* **Backend:** Node.js, Express, MongoDB, Socket.io
-* **Frontend:** React, TailwindCSS
-* **Containerization:** Docker
-* **Orchestration:** Kubernetes (planned)
-* **Web Server:** Nginx
-* **State Management:** Zustand
-* **Authentication:** JWT
-* **Styling Components:** DaisyUI
-
-
-## 🔧 Prerequisites:
-
-
-* **[Node.js](https://nodejs.org/)** (v14 or higher)
-* **[Docker](https://www.docker.com/get-started)** (for containerizing the app)
-* **[Git](https://git-scm.com/downloads)** (to clone the repository)
-
-
-## 📝 Setup .env File:
-
-
-1. Navigate to the `backend` directory:
-```bash
-cd backend
+```text
+                         ┌──────────────────────┐
+                         │        Users         │
+                         │      Web Browser     │
+                         └──────────┬───────────┘
+                                    │
+                                    │ HTTP / WebSocket
+                                    ▼
+                         ┌──────────────────────┐
+                         │      Frontend        │
+                         │    React + Nginx     │
+                         │      Port: 80        │
+                         └──────────┬───────────┘
+                                    │
+                                    │ REST API
+                                    │ WebSocket
+                                    ▼
+                         ┌──────────────────────┐
+                         │       Backend        │
+                         │ Node.js + Express.js │
+                         │      Socket.io       │
+                         │      Port: 5001      │
+                         └──────────┬───────────┘
+                                    │
+                                    │ MongoDB Protocol
+                                    ▼
+                         ┌──────────────────────┐
+                         │       MongoDB        │
+                         │      Port: 27017     │
+                         └──────────────────────┘
 ```
-2. Create a `.env` file and add the following content (modify the values as needed):
+
+---
+
+# ✨ Features
+
+* 💬 **Real-Time Messaging** using Socket.io
+* 🔐 **JWT Authentication & Authorization**
+* 👤 **User Profile Management**
+* 🟢 **Real-Time Online/Offline Status**
+* ⚡ **RESTful APIs**
+* 🔄 **WebSocket Communication**
+* 🎨 **Modern React UI**
+* 📦 **Dockerized Application**
+* ☸️ **Kubernetes-Based Deployment**
+* 🌐 **Nginx Web Server**
+* 🗄️ **MongoDB Persistent Storage**
+* 📈 **Scalable Three-Tier Architecture**
+
+---
+
+# 🛠️ Technology Stack
+
+### Frontend
+
+* React.js
+* TailwindCSS
+* DaisyUI
+* Zustand
+* Nginx
+
+### Backend
+
+* Node.js
+* Express.js
+* Socket.io
+* JWT
+* REST API
+
+### Database
+
+* MongoDB
+
+### DevOps & Infrastructure
+
+* Docker
+* Docker Compose
+* Kubernetes
+* Nginx
+* Kubernetes Services
+* Kubernetes Deployments
+* Kubernetes Namespaces
+* Persistent Storage
+
+---
+
+# 📂 Project Structure
+
+```text
+Three-Tier-Chat-Application-using-Kubernetes/
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── Dockerfile
+│   └── package.json
+│
+├── backend/
+│   ├── src/
+│   ├── Dockerfile
+│   ├── .env
+│   └── package.json
+│
+├── k8s/
+│   ├── namespace.yaml
+│   ├── frontend-deployment.yaml
+│   ├── frontend-service.yaml
+│   ├── backend-deployment.yaml
+│   ├── backend-service.yaml
+│   ├── mongodb-deployment.yaml
+│   ├── mongodb-service.yaml
+│   └── ...
+│
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+# 🔄 Application Workflow
+
+## 1. User Interaction
+
+Users access the application through a web browser.
+
+The React frontend is responsible for:
+
+* User login and registration
+* Displaying conversations
+* Sending and receiving messages
+* Managing user profiles
+* Displaying online/offline status
+* Handling real-time UI updates
+
+The frontend communicates with the backend using:
+
+* HTTP requests for REST APIs
+* WebSocket connections through Socket.io for real-time communication
+
+---
+
+## 2. Backend Processing
+
+The Node.js/Express backend handles the application's business logic.
+
+Responsibilities include:
+
+* User authentication
+* JWT token validation
+* User management
+* Message creation and retrieval
+* Database operations
+* REST API processing
+* WebSocket connections
+* Online/offline status management
+
+Socket.io provides bi-directional communication between the frontend and backend.
+
+For example:
+
+```text
+User A
+   │
+   │ Send Message
+   ▼
+Frontend
+   │
+   │ WebSocket
+   ▼
+Backend / Socket.io
+   │
+   ├──────────────► MongoDB
+   │
+   ▼
+User B
+```
+
+This allows messages to be delivered in real time without requiring the browser to continuously refresh the page.
+
+---
+
+## 3. MongoDB Database
+
+MongoDB is responsible for storing persistent application data.
+
+Examples include:
+
+* User information
+* Authentication-related data
+* Chat messages
+* Profile information
+* Other application data
+
+The backend communicates with MongoDB to perform:
+
+```text
+Create
+Read
+Update
+Delete
+```
+
+operations.
+
+---
+
+# 🐳 Docker Containerization
+
+Each application component is containerized independently.
+
+```text
+┌─────────────────────────────────────┐
+│            Docker Environment       │
+│                                     │
+│  ┌────────────┐                     │
+│  │  Frontend  │                     │
+│  │ React/Nginx│                     │
+│  └─────┬──────┘                     │
+│        │                             │
+│        ▼                             │
+│  ┌────────────┐                     │
+│  │  Backend   │                     │
+│  │ Node/Express│                    │
+│  └─────┬──────┘                     │
+│        │                             │
+│        ▼                             │
+│  ┌────────────┐                     │
+│  │  MongoDB   │                     │
+│  └────────────┘                     │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+---
+
+# 🔧 Environment Configuration
+
+Create a `.env` file inside the `backend` directory:
+
 ```env
 MONGODB_URI=mongodb://mongoadmin:secret@mongodb:27017/dbname?authSource=admin
 JWT_SECRET=your_jwt_secret_key
 PORT=5001
 ```
-> **Note:** Replace `your_jwt_secret_key` with a strong secret key of your choice.
 
-### Clone the Repository
+### Environment Variables
+
+| Variable      | Description                            |
+| ------------- | -------------------------------------- |
+| `MONGODB_URI` | MongoDB connection string              |
+| `JWT_SECRET`  | Secret key used for JWT authentication |
+| `PORT`        | Backend application port               |
+
+> **Security:** Do not commit `.env` files or real secrets to GitHub. Use Kubernetes Secrets or another secure secret-management solution for production deployments.
+
+---
+
+# 🚀 Local Deployment Using Docker Compose
+
+Docker Compose can be used to run the application locally before deploying it to Kubernetes.
+
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/iemafzalhassan/full-stack_chatApp.git
 ```
 
-## 🏗️ Build and Run the Application"
-
-Follow these steps to build and run the application:
-
-1. Build & Run the Containers:
+Navigate to the project:
 
 ```bash
 cd full-stack_chatApp
 ```
+
+---
+
+## 2. Build and Start the Containers
+
 ```bash
 docker-compose up -d --build
 ```
 
-2. Access the application in your browser:
+This command:
 
-```
-http://localhost
-```
+* Builds the frontend image
+* Builds the backend image
+* Pulls the MongoDB image
+* Creates the required containers
+* Starts the application services
+
 ---
 
-## 🛠️ Getting Started
-
-Follow these simple steps to get the project up and running on your local Host using docker.
+## 3. Verify Containers
 
 ```bash
-git clone https://github.com/iemafzalhassan/full-stack_chatApp.git
+docker ps
 ```
 
+Check application logs:
+
 ```bash
-cd full-stack_chatApp
+docker-compose logs -f
 ```
-## Create a Docker network:
+
+---
+
+## 4. Access the Application
+
+Open your browser:
+
+```text
+http://localhost
+```
+
+Backend API:
+
+```text
+http://localhost:5001
+```
+
+---
+
+# 🐳 Manual Docker Deployment
+
+The application can also be deployed manually without Docker Compose.
+
+## Create Docker Network
 
 ```bash
 docker network create full-stack
 ```
 
-## 🛠️ Building the Frontend
+---
+
+## Build Frontend Image
 
 ```bash
 cd frontend
@@ -122,102 +367,420 @@ cd frontend
 docker build -t full-stack_frontend .
 ```
 
-### Run the Frontend container:
-
-```bash
-docker run -d --network=full-stack  -p 5173:5173 --name frontend full-stack_frontend:latest
-```
-#### The frontend will now be accessible on port 5173.
-
-
-### Run the MongoDB Container:
-
-```bash
-docker run -d -p 27017:27017 --name mongo mongo:latest
-```
 ---
 
-## 🛠️ Building the Backend
+## Run Frontend Container
+
+```bash
+docker run -d \
+  --network=full-stack \
+  -p 5173:5173 \
+  --name frontend \
+  full-stack_frontend:latest
+```
+
+---
+
+## Run MongoDB
+
+```bash
+docker run -d \
+  -p 27017:27017 \
+  --name mongo \
+  mongo:latest
+```
+
+---
+
+## Build Backend Image
 
 ```bash
 cd backend
 ```
 
-### Build the Backend image:
-
 ```bash
 docker build -t full-stack_backend .
 ```
 
-### Run the Backend container:
+---
+
+## Run Backend Container
 
 ```bash
-docker run -d --network=full-stack --add-host=host.docker.internal:host-gateway -p 5001:5001 --env-file .env full-stack_backend
-
-```
-#### This will build and run the backend container, exposing the backendAPI on port 5001.
-
-`Backend API: http://localhost:5001`
-
-### To Verify the conncetion between backend and databse:
-```bash
-docker-compose logs -f
+docker run -d \
+  --network=full-stack \
+  --add-host=host.docker.internal:host-gateway \
+  -p 5001:5001 \
+  --env-file .env \
+  full-stack_backend
 ```
 
-### Once the backend and frontend containers are running, you can access the application in your browser:
+Backend API:
 
-`Frontend: http://localhost`
-
-
-You can now interact with the real-time chat app and start messaging!
+```text
+http://localhost:5001
+```
 
 ---
 
+# ☸️ Kubernetes Deployment
 
+The application is designed around a Kubernetes-based three-tier architecture.
 
-### 🤝 Contributing
+The Kubernetes deployment separates the application into independent workloads:
 
+```text
+                    Kubernetes Cluster
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │    Namespace    │
+                  │    chat-app     │
+                  └───────┬─────────┘
+                          │
+          ┌───────────────┼────────────────┐
+          │               │                │
+          ▼               ▼                ▼
+   ┌────────────┐  ┌────────────┐   ┌────────────┐
+   │  Frontend  │  │  Backend   │   │  MongoDB   │
+   │ Deployment │  │ Deployment │   │ Deployment │
+   └──────┬─────┘  └──────┬─────┘   └──────┬─────┘
+          │               │                │
+          ▼               ▼                ▼
+   ┌────────────┐  ┌────────────┐   ┌────────────┐
+   │ Frontend   │  │ Backend    │   │ MongoDB    │
+   │  Service   │  │  Service   │   │  Service   │
+   └────────────┘  └────────────┘   └────────────┘
+```
 
-We welcome contributions from DevOps & Developer of all skill levels! Here's how you can contribute:
+### Kubernetes Components
 
-**Report bugs:** If you encounter any bugs or issues, please open an issue with detailed information.
-**Suggest features:** Have an idea for a new feature? Open an issue to discuss it with the community.
-**Submit pull requests:** If you have a fix or a feature you'd like to contribute, submit a pull request. Ensure your changes pass any linting or tests, if applicable.
+The deployment uses Kubernetes resources such as:
 
-### 🌐 Join the Community
-
-We invite you to join our community of developers and contributors. Let's work together to build an amazing real-time chat application!
-
-* **Star this repository** to show your support
-* **Fork this repository** to contribute to the project
-* **Open an issue** to report bugs or suggest features
-* **Submit a pull request** to contribute code changes
-
-## 🔮 Future Plans
-
-
-This project is evolving, and here are a few exciting things on the horizon:
-
-* [ ] **CI/CD Pipelines:** Implement Continuous Integration and Continuous Deployment pipelines to automate testing and deployment.
-* [ ] **Kubernetes (K8s):** Add Kubernetes manifests for container orchestration to deploy the app on cloud platforms like AWS, GCP, or Azure.
-* [ ] **Feature Expansion:** Add more features like group chats, media sharing, and user status updates.
-* **Stay tuned for updates as we continue to improve and expand this project!**
+* Namespace
+* Deployments
+* Services
+* Pods
+* ConfigMaps
+* Secrets
+* Persistent Volumes / Persistent Volume Claims
 
 ---
 
-## 📚 Project Snapshots:
+# 🔍 Kubernetes Verification
+
+Check the cluster:
+
+```bash
+kubectl get nodes
+```
+
+Check the application namespace:
+
+```bash
+kubectl get all -n chat-app
+```
+
+Check pods:
+
+```bash
+kubectl get pods -n chat-app
+```
+
+Check services:
+
+```bash
+kubectl get svc -n chat-app
+```
+
+Check deployments:
+
+```bash
+kubectl get deployments -n chat-app
+```
+
+View pod logs:
+
+```bash
+kubectl logs <pod-name> -n chat-app
+```
+
+Describe a pod:
+
+```bash
+kubectl describe pod <pod-name> -n chat-app
+```
+
+---
+
+# 🌐 Service Communication
+
+Kubernetes Services provide stable network endpoints for the application components.
+
+The communication flow is:
+
+```text
+Browser
+   │
+   ▼
+Frontend Service
+   │
+   ▼
+Frontend Pods
+   │
+   │ HTTP / WebSocket
+   ▼
+Backend Service
+   │
+   ▼
+Backend Pods
+   │
+   │ MongoDB Protocol
+   ▼
+MongoDB Service
+   │
+   ▼
+MongoDB Pod
+```
+
+Instead of relying on Pod IP addresses, services provide stable DNS-based communication inside the Kubernetes cluster.
+
+---
+
+# 📊 Three-Tier Architecture
+
+## Presentation Tier
+
+**Technology:** React + Nginx
+
+Responsibilities:
+
+* User interface
+* User interaction
+* API communication
+* WebSocket communication
+
+---
+
+## Application Tier
+
+**Technology:** Node.js + Express.js + Socket.io
+
+Responsibilities:
+
+* Business logic
+* Authentication
+* REST APIs
+* WebSocket communication
+* User management
+* Message processing
+
+---
+
+## Data Tier
+
+**Technology:** MongoDB
+
+Responsibilities:
+
+* Persistent data storage
+* User information
+* Chat messages
+* Application data
+
+---
+
+# 🔐 Security
+
+The application implements JWT-based authentication.
+
+Authentication workflow:
+
+```text
+User
+ │
+ │ Login
+ ▼
+Frontend
+ │
+ │ Credentials
+ ▼
+Backend
+ │
+ │ Validate User
+ ▼
+MongoDB
+ │
+ │ User Data
+ ▼
+Backend
+ │
+ │ JWT
+ ▼
+Frontend
+```
+
+The JWT token is then used to authenticate protected API requests.
+
+For Kubernetes production deployments, sensitive configuration such as:
+
+* JWT secrets
+* Database credentials
+* API keys
+
+should be managed using **Kubernetes Secrets** rather than storing them directly in deployment manifests.
+
+---
+
+# 📈 Scalability
+
+One of the main advantages of using Kubernetes is the ability to scale application workloads independently.
+
+For example:
+
+```bash
+kubectl scale deployment backend --replicas=3 -n chat-app
+```
+
+The architecture can then run multiple backend Pods:
+
+```text
+                Backend Service
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+      Backend-1    Backend-2    Backend-3
+         Pod          Pod          Pod
+```
+
+The Kubernetes Service distributes traffic between the available Pods.
+
+---
+
+# 🛠️ Troubleshooting Commands
+
+### Check Pod Status
+
+```bash
+kubectl get pods -n chat-app
+```
+
+### Check Pod Events
+
+```bash
+kubectl describe pod <pod-name> -n chat-app
+```
+
+### Check Logs
+
+```bash
+kubectl logs <pod-name> -n chat-app
+```
+
+### Follow Logs
+
+```bash
+kubectl logs -f <pod-name> -n chat-app
+```
+
+### Check Services
+
+```bash
+kubectl get svc -n chat-app
+```
+
+### Check Deployments
+
+```bash
+kubectl get deployments -n chat-app
+```
+
+### Check All Resources
+
+```bash
+kubectl get all -n chat-app
+```
+
+# 📚 Key DevOps Concepts Demonstrated
+
+* Containerization with Docker
+* Dockerfile creation
+* Docker image management
+* Docker networking
+* Docker Compose
+* Three-tier architecture
+* Kubernetes Deployments
+* Kubernetes Services
+* Kubernetes Pods
+* Kubernetes Namespaces
+* Service discovery
+* Container orchestration
+* Application scaling
+* Persistent database storage
+* Environment configuration
+* JWT-based authentication
+* Kubernetes troubleshooting
+* REST API deployment
+* WebSocket deployment
+* Nginx
+
+---
+
+# 🔮 Future Improvements
+
+* [ ] Implement CI/CD using Jenkins or GitHub Actions
+* [ ] Add Kubernetes ConfigMaps and Secrets
+* [ ] Add Kubernetes Health Checks and Probes
+* [ ] Implement Horizontal Pod Autoscaling
+* [ ] Add Kubernetes Ingress
+* [ ] Add TLS/HTTPS
+* [ ] Implement centralized logging
+* [ ] Add Prometheus and Grafana monitoring
+* [ ] Deploy the application to AWS
+* [ ] Use managed MongoDB for production
+* [ ] Implement rolling deployments
+
+---
+
+# 📸 Project Screenshots
+
+### Login
+
+![Login](frontend/public/login.png)
+
+### Chat Application
+
+![Chat](frontend/public/chat.png)
+
+### Settings
 
 ![Settings](frontend/public/settings.png)
 
-![chat](frontend/public/chat.png)
+### Logout
 
-![logout](/frontend/public/logout.png)
+![Logout](frontend/public/logout.png)
 
-![Login](/frontend/public/login.png)
+---
 
+## ⭐ Project Summary
 
+This project demonstrates the complete journey of a full-stack application from **development and containerization to Kubernetes-based deployment**.
 
-## 📜 License
+```text
+MERN Application
+       │
+       ▼
+   Docker
+       │
+       ▼
+ Docker Compose
+       │
+       ▼
+ Kubernetes
+       │
+       ├── Frontend
+       ├── Backend
+       └── MongoDB
+```
 
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
+The primary DevOps objective is to create a **reproducible, scalable, and maintainable deployment architecture** for a real-time full-stack application.
